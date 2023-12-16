@@ -1,4 +1,4 @@
-module contracts
+module github.com/slavkluev/gophkeeper-contracts
 
 go 1.21
 

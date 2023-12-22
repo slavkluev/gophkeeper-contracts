@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package accounts;
+
+option go_package = "gophkeeper.accounts.v1;accountsv1";
+
+service Accounts {
+  rpc GetAll (GetAllRequest) returns (GetAllResponse);
+  rpc Save (SaveRequest) returns (SaveResponse);
+}
+
+message Account {
+  string email = 1;
+  string password = 2;
+}
+
+message GetAllRequest {}
+
+message GetAllResponse {
+  repeated Account accounts = 1;
+}
+
+message SaveRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message SaveResponse {}

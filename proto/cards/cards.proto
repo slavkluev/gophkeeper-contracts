@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package cards;
+
+option go_package = "gophkeeper.cards.v1;cardsv1";
+
+service Cards {
+  rpc GetAll (GetAllRequest) returns (GetAllResponse);
+  rpc Save (SaveRequest) returns (SaveResponse);
+  rpc Update (UpdateRequest) returns (UpdateResponse);
+}
+
+message Card {
+  uint64 id = 1;
+  string number = 2;
+  string cvv = 3;
+  string month = 4;
+  string year = 5;
+  string info = 6;
+}
+
+message GetAllRequest {}
+
+message GetAllResponse {
+  repeated Card cards = 1;
+}
+
+message SaveRequest {
+  string number = 1;
+  string cvv = 2;
+  string month = 3;
+  string year = 4;
+  string info = 5;
+}
+
+message SaveResponse {
+  uint64 id = 1;
+}
+
+message UpdateRequest {
+  uint64 id = 1;
+  string number = 2;
+  string cvv = 3;
+  string month = 4;
+  string year = 5;
+  string info = 6;
+}
+
+message UpdateResponse {}

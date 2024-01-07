@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Accounts_GetAll_FullMethodName = "/accounts.Accounts/GetAll"
 	Accounts_Save_FullMethodName   = "/accounts.Accounts/Save"
+	Accounts_Update_FullMethodName = "/accounts.Accounts/Update"
 )
 
 // AccountsClient is the client API for Accounts service.
@@ -29,6 +30,7 @@ const (
 type AccountsClient interface {
 	GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (*GetAllResponse, error)
 	Save(ctx context.Context, in *SaveRequest, opts ...grpc.CallOption) (*SaveResponse, error)
+	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 }
 
 type accountsClient struct {
@@ -57,12 +59,22 @@ func (c *accountsClient) Save(ctx context.Context, in *SaveRequest, opts ...grpc
 	return out, nil
 }
 
+func (c *accountsClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+	out := new(UpdateResponse)
+	err := c.cc.Invoke(ctx, Accounts_Update_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountsServer is the server API for Accounts service.
 // All implementations must embed UnimplementedAccountsServer
 // for forward compatibility
 type AccountsServer interface {
 	GetAll(context.Context, *GetAllRequest) (*GetAllResponse, error)
 	Save(context.Context, *SaveRequest) (*SaveResponse, error)
+	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	mustEmbedUnimplementedAccountsServer()
 }
 
@@ -75,6 +87,9 @@ func (UnimplementedAccountsServer) GetAll(context.Context, *GetAllRequest) (*Get
 }
 func (UnimplementedAccountsServer) Save(context.Context, *SaveRequest) (*SaveResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
+}
+func (UnimplementedAccountsServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedAccountsServer) mustEmbedUnimplementedAccountsServer() {}
 
@@ -125,6 +140,24 @@ func _Accounts_Save_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Accounts_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountsServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Accounts_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountsServer).Update(ctx, req.(*UpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Accounts_ServiceDesc is the grpc.ServiceDesc for Accounts service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +172,10 @@ var Accounts_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Save",
 			Handler:    _Accounts_Save_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _Accounts_Update_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,32 +1,30 @@
 syntax = "proto3";
 
-package accounts;
+package texts;
 
-option go_package = "gophkeeper.accounts.v1;accountsv1";
+option go_package = "gophkeeper.texts.v1;textsv1";
 
-service Accounts {
+service Texts {
   rpc GetAll (GetAllRequest) returns (GetAllResponse);
   rpc Save (SaveRequest) returns (SaveResponse);
   rpc Update (UpdateRequest) returns (UpdateResponse);
 }
 
-message Account {
+message Text {
   uint64 id = 1;
-  string login = 2;
-  string password = 3;
-  string info = 4;
+  string text = 2;
+  string info = 3;
 }
 
 message GetAllRequest {}
 
 message GetAllResponse {
-  repeated Account accounts = 1;
+  repeated Text texts = 1;
 }
 
 message SaveRequest {
-  string login = 1;
-  string password = 2;
-  string info = 3;
+  string text = 1;
+  string info = 2;
 }
 
 message SaveResponse {
@@ -35,9 +33,8 @@ message SaveResponse {
 
 message UpdateRequest {
   uint64 id = 1;
-  string login = 2;
-  string password = 3;
-  string info = 4;
+  string text = 2;
+  string info = 3;
 }
 
 message UpdateResponse {}
